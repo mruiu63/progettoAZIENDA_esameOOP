@@ -7,8 +7,6 @@ public class Main {
     public static void main(String[] args) {
         ConsoleOutputManager out=new ConsoleOutputManager();
         ConsoleInputManager in=new ConsoleInputManager();
-        Random random= new Random();
-        GestioneAzienda ga= new GestioneAzienda();
         int s;
         do {
             out.println("1)Apri nuova sede");
