@@ -7,6 +7,8 @@ public class Main {
     public static void main(String[] args) {
         ConsoleOutputManager out=new ConsoleOutputManager();
         ConsoleInputManager in=new ConsoleInputManager();
+        Random random= new Random();
+        GestioneAzienda ga= new GestioneAzienda();
         int s;
         do {
             out.println("1)Apri nuova sede");
@@ -19,11 +21,20 @@ public class Main {
             switch (s) {
                 case 1:
                 {
-
+                    out.println("APERTURA NUOVA SEDE");
+                    String com=in.readLine("In quale comune vuoi aprire la sede?");
+                    String cod=in.readLine("Assegna un codice identificativo alla sede");
+                    ga.add_sede(cod,com);
                 }break;
                 case 2:
                 {
-
+                    out.println("Quanti impiegati vuoi assumere?");
+                    int nI=in.readInt();
+                    for(int i=0; i<nI; i++)
+                    {
+                        Impiegato imp= ga.assumiImp();
+                        ga.listaimpiegati.add(imp);
+                    }
                 }break;
                 case 3:
                 {

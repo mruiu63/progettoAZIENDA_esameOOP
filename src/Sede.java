@@ -5,7 +5,12 @@ public class Sede {
     private String comune;
     private String CFdirettore;
     ArrayList<Reparto> listareparti=new ArrayList<>();
-
+    public Sede(String cod, String com,String cfdir)
+    {
+        this.codice=cod;
+        this.comune=com;
+        this.CFdirettore=cfdir;
+    }
     public String getCodice() {
         return codice;
     }
