@@ -12,7 +12,7 @@ public class Impiegato {
     private String ruolo;
     ArrayList<Contratto> listacontratti=new ArrayList<>();
     ConsoleOutputManager out= new ConsoleOutputManager();
-    public Impiegato(String n, String c, String r)
+    public Impiegato(String n, String c, String r)//costruttore con parametri
     {
         this.nome=n;
         this.cognome=c;
@@ -52,26 +52,50 @@ public class Impiegato {
     public void setRuolo(String ruolo) {
         this.ruolo = ruolo;
     }
-    public String creaCF(String n, String c)
+    public String creaCF(String n, String c)//metodo per generare un codice fiscale
     {
+        Random random=new Random();
         //cognome
-        this.CF+=c.substring(0,3).toUpperCase();
         if(c.length()<3)
-            this.CF+=String.format("%-"+(3-c.length())+"s","").replace(' ','X');
+        {
+            this.CF+=c;
+            for(int i=c.length(); i<3;i++)
+            {
+                this.CF+="X";
+            }
+        }
+        else {
+            this.CF += c.substring(0, 3).toUpperCase();
+        }
         //nome
-        this.CF+=n.substring(0,3).toUpperCase();
         if(n.length()<3)
-            this.CF+=String.format("%-"+(3-n.length())+"s","").replace(' ','X');
+        {
+            this.CF+=n;
+            for(int i=n.length(); i<3;i++)
+            {
+                this.CF+="X";
+            }
+        }
+        else {
+            this.CF += n.substring(0, 3).toUpperCase();
+        }
+        for(int i=0; i<3;i++)
+        {
+            //genero numero casuale e poi lo converto in lettere utilizzando la codifica Unicode per le lettere maiuscole
+            char letteraRnd=(char)(random.nextInt(26)+'A');
+            this.CF+=letteraRnd;
+        }
         return this.CF;
     }
-    public void add_contract(Date di, Date df, double stipendio)
+    public void add_contract(Date di, Date df, double stipendio)//metodo di aggiunta contratto per l'impiegato
     {
         Contratto c= new Contratto(getCF(), di, df, stipendio);
         listacontratti.add(c);
         for(Contratto contratto: listacontratti)
             out.println(contratto);
     }
-    public Date generateDateContract(Calendar calendar, int startYear, int startMonth, int startDay, int endYear, int endMonth, int endDay) {
+    public Date generateDateContract(Calendar calendar, int startYear, int startMonth, int startDay, int endYear, int endMonth, int endDay)//metoto di generazione data automatica per il contratto
+    {
         Random random= new Random();
         int year = startYear + random.nextInt(endYear - startYear + 1);
         int month = startMonth + random.nextInt(12 - startMonth);

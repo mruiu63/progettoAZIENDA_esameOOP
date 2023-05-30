@@ -10,10 +10,10 @@ public class GestioneAzienda {
     ConsoleOutputManager out= new ConsoleOutputManager();
     ConsoleInputManager in= new ConsoleInputManager();
     Calendar calendar = new GregorianCalendar();
-    public GestioneAzienda()
+    public GestioneAzienda()//costruttore vuoto
     {
     }
-    public void add_sede(String cod,String com)
+    public void add_sede(String cod,String com)//metodo per l'aggiunta della sede
     {
         Impiegato dir=assumiDir();
         listaimpiegati.add(dir);
@@ -25,15 +25,28 @@ public class GestioneAzienda {
         }
         listasedi.add(s);
     }
-    public Reparto creaRep()
+    public Reparto creaRep()//creazione nuovo reparto nella sede inerente
     {
+        ArrayList<String> listaCFimpiegatireparto=new ArrayList<>();
         String nomerep=in.readLine("Nome reparto:");
         Impiegato caporep=assumiCapoRep(nomerep);
         listaimpiegati.add(caporep);
-        Reparto r= new Reparto(nomerep, caporep.getCF());
+        int s=0;
+        do{
+            out.println("1)Assumi impiegato");
+            out.println("0)Termina assunzioni");
+            s=in.readInt();
+            if(s==1)
+            {
+                Impiegato imp=assumiImp();
+                listaimpiegati.add(imp);
+                listaCFimpiegatireparto.add(imp.getCF());
+            }
+        }while(s!=0);
+        Reparto r= new Reparto(nomerep, caporep.getCF(), listaCFimpiegatireparto);
         return r;
     }
-    public Impiegato assumiDir()
+    public Impiegato assumiDir()//assunzione direttore
     {
         out.println("Assunzione direttore sede");
         String nome=in.readLine("Inserisci nome direttore");
@@ -45,7 +58,7 @@ public class GestioneAzienda {
         imp.add_contract(randomDate1, null, stip);
         return imp;
     }
-    public Impiegato assumiCapoRep(String nomer)
+    public Impiegato assumiCapoRep(String nomer)//assunzione capo reparto
     {
         out.println("Assunzione caporeparto "+nomer);
         String n=in.readLine("Inserisci nome caporeparto");
@@ -58,7 +71,7 @@ public class GestioneAzienda {
         listaimpiegati.add(imp);
         return imp;
     }
-    public Impiegato assumiImp()
+    public Impiegato assumiImp()//assumi impiegati normali
     {
         Random random= new Random();
         String n=in.readLine("Inserisci nome impiegato");

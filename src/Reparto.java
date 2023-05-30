@@ -4,10 +4,11 @@ public class Reparto {
     private String nome;
     private String CFcapo;
     ArrayList<String> listaCFimpiegati=new ArrayList<>();
-    public Reparto(String n, String cf)
+    public Reparto(String n, String cf, ArrayList<String> listaCF)//costruttore con parametri
     {
         this.setNome(n);
         this.CFcapo=cf;
+        listaCFimpiegati.addAll(listaCF);
     }
 
     public String getCFcapo() {

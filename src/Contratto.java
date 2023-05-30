@@ -5,7 +5,7 @@ public class Contratto {
     private Date datainizio;
     private Date datafine;
     private double stipendio;
-    public Contratto(String CF, Date di, Date df, double stip)
+    public Contratto(String CF, Date di, Date df, double stip)//costruttore con parametri
     {
         this.CFimpiegato=CF;
         this.datainizio=di;
@@ -44,7 +44,7 @@ public class Contratto {
         this.stipendio = stipendio;
     }
     @Override
-    public String toString()
+    public String toString()//metodo toString per visualizzare i dati del contratto
     {
         String tipocont= (datafine==null)?"tempo indeterminato":"tempo determinato";
         return "Contratto [CF: "+CFimpiegato+", Inizio: "+datainizio+", Fine: "+datafine+", Stipendio: "+stipendio+", Tipo:"+tipocont+"]";
