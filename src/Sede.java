@@ -34,4 +34,14 @@ public class Sede {
     public void setCFdirettore(String CFdirettore) {
         this.CFdirettore = CFdirettore;
     }
+    @Override
+    public String toString()
+    {
+        String sedestr="SEDE[Codice:"+codice+"\\Comune:"+comune+"\\Direttore:"+CFdirettore+"]\nREPARTI:";
+        for(Reparto rep: listareparti)
+        {
+            sedestr+=rep.getNome()+"\\";
+        }
+        return sedestr;
+    }
 }

@@ -26,4 +26,14 @@ public class Reparto {
     public void setNome(String nome) {
         this.nome = nome;
     }
+    @Override
+    public String toString()
+    {
+        String repartostr="REPARTO["+nome+"\\CAPO:"+CFcapo+"]\nIMPIEGATI:";
+        for(String CF: listaCFimpiegati)
+        {
+            repartostr+=CF+"\\";
+        }
+        return repartostr;
+    }
 }

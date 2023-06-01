@@ -9,7 +9,12 @@ public class Impiegato {
     private String CF;
     private String nome;
     private String cognome;
-    private String ruolo;
+    private String ruolo;//codice identificativo per ruolo assunto nell'azienda
+    /*
+    CRP=capo reparto
+    DIR= direttore
+    IMP= impiegato
+    */
     ArrayList<Contratto> listacontratti=new ArrayList<>();
     ConsoleOutputManager out= new ConsoleOutputManager();
     public Impiegato(String n, String c, String r)//costruttore con parametri
@@ -102,5 +107,10 @@ public class Impiegato {
         int day = startDay + random.nextInt(calendar.getActualMaximum(Calendar.DAY_OF_MONTH) - startDay + 1);
         calendar.set(year, month, day);
         return calendar.getTime();
+    }
+    @Override
+    public String toString()
+    {
+        return "Impiegato[CF="+CF+"\\"+nome+" "+cognome+"\\ruolo:"+ruolo+"]";
     }
 }

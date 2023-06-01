@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) {
         ConsoleOutputManager out=new ConsoleOutputManager();
         ConsoleInputManager in=new ConsoleInputManager();
-        GestioneAzienda ga= new GestioneAzienda();
+        GestioneAzienda azienda= new GestioneAzienda();
         int s;
         do {
             out.println("1)Apri nuova sede");
@@ -23,7 +23,7 @@ public class Main {
                     out.println("APERTURA NUOVA SEDE");
                     String com=in.readLine("In quale comune vuoi aprire la sede?");//inserimento comune dove aprire la sede
                     String cod=in.readLine("Assegna un codice identificativo alla sede");//inserimento codice della sede
-                    ga.add_sede(cod,com);//richiamo metodo per aggiungere la sede
+                    azienda.add_sede(cod,com);//richiamo metodo per aggiungere la sede
                 }break;
                 case 2:
                 {
@@ -32,17 +32,23 @@ public class Main {
                     int nI=in.readInt();
                     for(int i=0; i<nI; i++)
                     {
-                        Impiegato imp= ga.assumiImp();
-                        ga.listaimpiegati.add(imp);
+                        Impiegato imp= azienda.assumiImp();
+                        azienda.listaimpiegati.add(imp);
                     }
                 }break;
                 case 3:
                 {
-
+                    for(Impiegato imp: azienda.listaimpiegati)
+                    {
+                        out.println(imp.toString());
+                    }
                 }break;
                 case 4:
                 {
-
+                    for(Sede sede: azienda.listasedi)
+                    {
+                        out.println(sede.getCodice());
+                    }
                 }break;
                 case 5:
                 {
