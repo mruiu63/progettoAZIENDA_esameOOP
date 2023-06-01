@@ -10,30 +10,21 @@ public class Reparto {
         this.CFcapo=cf;
         listaCFimpiegati.addAll(listaCF);
     }
-
     public String getCFcapo() {
         return CFcapo;
     }
-
     public void setCFcapo(String CFcapo) {
         this.CFcapo = CFcapo;
     }
-
     public String getNome() {
         return nome;
     }
-
     public void setNome(String nome) {
         this.nome = nome;
     }
     @Override
     public String toString()
     {
-        String repartostr="REPARTO["+nome+"\\CAPO:"+CFcapo+"]\nIMPIEGATI:";
-        for(String CF: listaCFimpiegati)
-        {
-            repartostr+=CF+"\\";
-        }
-        return repartostr;
+        return "REPARTO[NOME:"+getNome()+"\\CAPO:"+getCFcapo()+"]";
     }
 }

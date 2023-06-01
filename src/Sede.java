@@ -14,34 +14,24 @@ public class Sede {
     public String getCodice() {
         return codice;
     }
-
     public void setCodice(String codice) {
         this.codice = codice;
     }
-
     public String getComune() {
         return comune;
     }
-
     public void setComune(String comune) {
         this.comune = comune;
     }
-
     public String getCFdirettore() {
         return CFdirettore;
     }
-
     public void setCFdirettore(String CFdirettore) {
         this.CFdirettore = CFdirettore;
     }
     @Override
     public String toString()
     {
-        String sedestr="SEDE[Codice:"+codice+"\\Comune:"+comune+"\\Direttore:"+CFdirettore+"]\nREPARTI:";
-        for(Reparto rep: listareparti)
-        {
-            sedestr+=rep.getNome()+"\\";
-        }
-        return sedestr;
+        return "SEDE[Codice:"+getCodice()+"\\Comune:"+getComune()+"\\Direttore:"+getCFdirettore()+"]\n";
     }
 }

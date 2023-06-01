@@ -52,9 +52,10 @@ public class Main {
                 }break;
                 case 5:
                 {
-
+                    azienda.VisualizzaDati();
                 }break;
             }
         }while(s!=0);
+
     }
 }

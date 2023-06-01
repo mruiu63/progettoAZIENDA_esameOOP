@@ -6,10 +6,10 @@ import java.util.Date;
 import java.util.Random;
 
 public class Impiegato {
-    private String CF;
+    private String CF="";
     private String nome;
     private String cognome;
-    private String ruolo;//codice identificativo per ruolo assunto nell'azienda
+    private String ruolo;//codice per ruolo assunto nell'azienda
     /*
     CRP=capo reparto
     DIR= direttore
@@ -25,35 +25,27 @@ public class Impiegato {
         this.CF=creaCF(n, c);
         this.ruolo=r;
     }
-
     public String getCF() {
         return CF;
     }
-
     public void setCF(String CF) {
         this.CF = CF;
     }
-
     public String getNome() {
         return nome;
     }
-
     public void setNome(String nome) {
         this.nome = nome;
     }
-
     public String getCognome() {
         return cognome;
     }
-
     public void setCognome(String cognome) {
         this.cognome = cognome;
     }
-
     public String getRuolo() {
         return ruolo;
     }
-
     public void setRuolo(String ruolo) {
         this.ruolo = ruolo;
     }
@@ -63,7 +55,7 @@ public class Impiegato {
         //cognome
         if(c.length()<3)
         {
-            this.CF+=c;
+            this.CF+=c.toUpperCase();
             for(int i=c.length(); i<3;i++)
             {
                 this.CF+="X";
@@ -75,7 +67,7 @@ public class Impiegato {
         //nome
         if(n.length()<3)
         {
-            this.CF+=n;
+            this.CF+=n.toUpperCase();
             for(int i=n.length(); i<3;i++)
             {
                 this.CF+="X";
@@ -96,8 +88,6 @@ public class Impiegato {
     {
         Contratto c= new Contratto(getCF(), di, df, stipendio);
         listacontratti.add(c);
-        for(Contratto contratto: listacontratti)
-            out.println(contratto);
     }
     public Date generateDateContract(Calendar calendar, int startYear, int startMonth, int startDay, int endYear, int endMonth, int endDay)//metoto di generazione data automatica per il contratto
     {
