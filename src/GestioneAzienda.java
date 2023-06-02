@@ -106,22 +106,79 @@ public class GestioneAzienda{
     }
     public void VisualizzaDati()
     {
-        for(Sede sede: listasedi)
+        if(!listasedi.isEmpty())
         {
-            out.println(sede);
-            for(Reparto reparto:sede.listareparti)
+            for(Sede sede: listasedi)
             {
-                out.println(reparto);
-                for(String CF: reparto.listaCFimpiegati)
+                out.println(sede);
+                for(Reparto reparto:sede.listareparti)
                 {
-                    out.println(CF);
+                    out.println(reparto);
+                    for(String CF: reparto.listaCFimpiegati)
+                    {
+                        out.println(CF);
+                    }
+                }
+            }
+            out.println("Dati generici per ogni impiegato presente nelll'azienda");
+            for(Impiegato impiegato: listaimpiegati)
+            {
+                out.println(impiegato);
+            }
+        }
+        else
+        {
+            out.println("L'azienda non ha sedi aperte");
+        }
+    }
+    public Reparto RicercaRep(String nomerep)
+    {
+        Reparto r = null;
+        for(Sede s: listasedi)
+        {
+            for(Reparto rep: s.listareparti)
+            {
+                if(nomerep.equals(rep.getNome()))
+                {
+                    r=rep;
                 }
             }
         }
-        out.println("Dati generici per ogni impiegato presente nelll'azienda");
-        for(Impiegato impiegato: listaimpiegati)
+        return r;
+    }
+    public void spostamentoRepImp(String nomeImp, String nuovorep)
+    {
+        for(Sede s: listasedi)
         {
-            out.println(impiegato);
+            for(Reparto rep: s.listareparti)
+            {
+                for(String CF: rep.listaCFimpiegati)
+                {
+                    if(nomeImp.equals(CF))
+                    {
+                        rep.listaCFimpiegati.remove(nomeImp);
+                        break;
+                    }
+                }
+            }
+        }
+        for(Sede s:listasedi)
+        {
+            for(Reparto rep: s.listareparti)
+            {
+                if(nuovorep.equals(rep.getNome()))
+                {
+                    rep.listaCFimpiegati.add(nomeImp);
+                    break;
+                }
+            }
+        }
+    }
+    public void ApriNuoviRep(Sede sede) {
+        int nrep=in.readInt("Quanti nuovi reparti vuoi aprire?");
+        for(int i=0; i<nrep; i++)
+        {
+            sede.listareparti.add(creaRep());
         }
     }
 }

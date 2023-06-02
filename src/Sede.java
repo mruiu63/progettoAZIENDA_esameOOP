@@ -32,6 +32,6 @@ public class Sede {
     @Override
     public String toString()
     {
-        return "SEDE[Codice:"+getCodice()+"\\Comune:"+getComune()+"\\Direttore:"+getCFdirettore()+"]\n";
+        return "SEDE[Codice:"+getCodice()+"\\Comune:"+getComune()+"\\Direttore:"+getCFdirettore()+"]";
     }
 }
