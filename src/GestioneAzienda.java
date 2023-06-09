@@ -1,11 +1,13 @@
+import java.io.*;
 import prog.io.ConsoleInputManager;
 import prog.io.ConsoleOutputManager;
-
-import java.io.*;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.*;
 
 public class GestioneAzienda{
     ArrayList<Impiegato> listaimpiegati=new ArrayList<>();
+    ArrayList<String> listaCFimpFree=new ArrayList<>();
     ArrayList<Sede> listasedi=new ArrayList<>();
     ArrayList<Contratto> listacontratti=new ArrayList<>();
     ConsoleOutputManager out= new ConsoleOutputManager();
@@ -16,35 +18,123 @@ public class GestioneAzienda{
     }
     public void add_sede(String cod,String com)//metodo per l'aggiunta della sede
     {
-        Impiegato dir=assumiDir();
-        listaimpiegati.add(dir);
-        Sede s= new Sede(cod,com,dir.getCF());
-        int nrep=in.readInt("Quanti reparti vuoi aprire?");
-        for(int i=0; i<nrep; i++)
+        Sede s = null;
+        if(listaCFimpFree.isEmpty())
         {
-            s.listareparti.add(creaRep());
+            Impiegato dir=assumiDir();
+            listaimpiegati.add(dir);
+            s= new Sede(cod,com,dir.getCF());
+            int nrep=in.readInt("Quanti reparti vuoi aprire?");
+            for(int i=0; i<nrep; i++)
+            {
+                s.listareparti.add(creaRep());
+            }
+            Collections.sort(listaimpiegati);
+            listasedi.add(s);
         }
-        listasedi.add(s);
+        else
+        {
+            boolean dirinserito=false;
+            for(Impiegato imp:listaimpiegati)
+            {
+                for(String CF: listaCFimpFree)
+                {
+                    if(imp.getCF().equals(CF) && imp.getRuolo().equals("DIR"))
+                    {
+                        listaCFimpFree.remove(CF);
+                        s=new Sede(cod,com,imp.getCF());//direttore preso dalla lista dei lavoratori senza nessuna assegnazione
+                        dirinserito=true;
+                        break;
+                    }
+                }
+            }
+            if(!dirinserito)
+            {
+                Impiegato dir=assumiDir();
+                listaimpiegati.add(dir);
+                s= new Sede(cod,com,dir.getCF());
+            }
+            int nrep=in.readInt("Quanti reparti vuoi aprire?");
+            for(int i=0; i<nrep; i++)
+            {
+                s.listareparti.add(creaRep());
+            }
+            Collections.sort(listaimpiegati);
+            listasedi.add(s);
+        }
     }
     public Reparto creaRep()//creazione nuovo reparto nella sede inerente
     {
-        ArrayList<String> listaCFimpiegatireparto=new ArrayList<>();
-        String nomerep=in.readLine("Nome reparto:");
-        Impiegato caporep=assumiCapoRep(nomerep);
-        listaimpiegati.add(caporep);
-        int s=0;
-        do{
-            out.println("1)Assumi impiegato");
-            out.println("0)Termina assunzioni");
-            s=in.readInt();
-            if(s==1)
+        Reparto r=null;
+        ArrayList<String> listaCFimpiegatireparto = new ArrayList<>();
+        if(listaCFimpFree.isEmpty()) {
+            String nomerep = in.readLine("Nome reparto:");
+            Impiegato caporep = assumiCapoRep(nomerep);
+            listaimpiegati.add(caporep);
+            int s = 0;
+            do {
+                out.println("1)Assumi impiegato");
+                out.println("0)Termina assunzioni");
+                s = in.readInt();
+                if (s == 1) {
+                    Impiegato imp = assumiImp();
+                    listaimpiegati.add(imp);
+                    listaCFimpiegatireparto.add(imp.getCF());
+                }
+            } while (s != 0);
+            Collections.sort(listaimpiegati);
+            r = new Reparto(nomerep, caporep.getCF(), listaCFimpiegatireparto);
+        }
+        else
+        {
+            String CFcrep=null;
+            String nomerep = in.readLine("Nome reparto:");
+            boolean crpinserito=false;
+            for(Impiegato imp:listaimpiegati)
             {
-                Impiegato imp=assumiImp();
-                listaimpiegati.add(imp);
-                listaCFimpiegatireparto.add(imp.getCF());
+                for(String CF: listaCFimpFree)
+                {
+                    if(imp.getCF().equals(CF) && imp.getRuolo().equals("CRP"))
+                    {
+                        listaCFimpFree.remove(CF);
+                        CFcrep=CF;
+                        crpinserito=true;//caporeparto inserito dalla lista degli impiegati liberi in base al suo ruolo
+                        break;
+                    }
+                }
             }
-        }while(s!=0);
-        Reparto r= new Reparto(nomerep, caporep.getCF(), listaCFimpiegatireparto);
+            if(!crpinserito)
+            {
+                Impiegato caporep = assumiCapoRep(nomerep);
+                listaimpiegati.add(caporep);
+            }
+            int s = 0;
+            do {
+                out.println("1)Assumi impiegato");
+                out.println("0)Termina assunzioni");
+                s = in.readInt();
+                if (s == 1) {
+                    if(!listaCFimpFree.isEmpty()) {
+                        for (Impiegato imp : listaimpiegati) {
+                            for (String CF : listaCFimpFree) {
+                                if (imp.getCF().equals(CF) && imp.getRuolo().equals("IMP")) {
+                                    listaCFimpFree.remove(CF);
+                                    listaCFimpiegatireparto.add(imp.getCF());//impiegato assegnato al reparto dalla lista di quelli liberi
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Impiegato imp = assumiImp();
+                        listaimpiegati.add(imp);
+                        listaCFimpiegatireparto.add(imp.getCF());
+                    }
+                }
+            } while (s != 0);
+            r = new Reparto(nomerep, CFcrep, listaCFimpiegatireparto);
+        }
         return r;
     }
     public Impiegato assumiDir()//assunzione direttore
@@ -120,10 +210,10 @@ public class GestioneAzienda{
                     }
                 }
             }
-            out.println("Dati generici per ogni impiegato presente nelll'azienda");
-            for(Impiegato impiegato: listaimpiegati)
+            out.println("Impiegati presenti ma senza assegnazione a sede/reparto");
+            for(String CF:listaCFimpFree)
             {
-                out.println(impiegato);
+                out.println(CF);
             }
         }
         else
@@ -180,5 +270,39 @@ public class GestioneAzienda{
         {
             sede.listareparti.add(creaRep());
         }
+    }
+    public void chiudiSede(String codice)
+    {
+        for(Sede sede:listasedi)
+        {
+            if (sede.getCodice().equals(codice)) {
+                listaCFimpFree.add(sede.getCFdirettore());
+                for (Reparto rep : sede.listareparti) {
+                    listaCFimpFree.add(rep.getCFcapo());
+                    listaCFimpFree.addAll(rep.listaCFimpiegati);
+                }
+                listasedi.remove(sede);
+            }
+            if(listasedi.size()==0)
+                break;
+        }
+    }
+    public boolean chiudiReparto(String repToCanc)
+    {
+        boolean repesistente=false;
+        //scansione sedi per trovare rep
+        for(Sede sede: listasedi)
+        {
+            for(Reparto rep: sede.listareparti)
+            {
+                if(rep.getNome().equals(repToCanc))
+                {
+                    repesistente=true;
+                    listaCFimpFree.add(rep.getCFcapo());
+                    listaCFimpFree.addAll(rep.listaCFimpiegati);
+                }
+            }
+        }
+        return repesistente;
     }
 }

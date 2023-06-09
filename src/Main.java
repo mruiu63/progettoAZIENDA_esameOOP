@@ -17,6 +17,9 @@ public class Main {
             out.println("5)Visualizza tutti i dati dell'azienda");
             out.println("6)Assegna impiegato ad un altro reparto");
             out.println("7)Apri nuovo reparto");
+            out.println("8)Chiudi un reparto");
+            out.println("9)Chiudi una sede");
+            out.println("10)Revisione contratti");
             out.println("0)Ferma esecuzione");
             s = in.readInt();
             switch (s) {
@@ -114,6 +117,37 @@ public class Main {
                     }while(sedeesistente);
                     azienda.ApriNuoviRep(sede);
                 }
+                case 8:
+                {
+                    boolean continua=false;
+                    do {
+                        String repToCanc = in.readLine("Inserisci nome del reparto che vuoi chiudere");
+                        if (azienda.chiudiReparto(repToCanc)) {
+                            out.println("Reparto chiuso");
+                            continua=true;
+                        }
+                        else
+                        {
+                            continua=in.readSiNo("Vuoi riprovare?");
+                        }
+                    }while(continua);
+                }break;
+                case 9:
+                {
+                    if(azienda.listasedi.isEmpty())
+                    {
+                        out.println("Non puoi chiudere una sede senza mai averne aperto una");
+                    }
+                    else
+                    {
+                        String cod=in.readLine("Inserisci codice sede che vuoi chiudere");
+                        azienda.chiudiSede(cod);
+                    }
+                }break;
+                case 10:
+                {
+                    //revisione contratti
+                }break;
             }
         }while(s!=0);
     }

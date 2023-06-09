@@ -5,7 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
-public class Impiegato {
+public class Impiegato implements Comparable<Impiegato>{
     private String CF="";
     private String nome;
     private String cognome;
@@ -101,6 +101,11 @@ public class Impiegato {
     @Override
     public String toString()
     {
-        return "Impiegato[CF="+CF+"\\"+nome+" "+cognome+"\\ruolo:"+ruolo+"]";
+        return "Impiegato[CF="+CF+"\\"+cognome+" "+nome+"\\ruolo:"+ruolo+"]";
+    }
+
+    @Override
+    public int compareTo(Impiegato o) {
+        return this.CF.compareTo(o.CF);
     }
 }
