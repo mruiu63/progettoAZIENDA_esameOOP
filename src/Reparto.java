@@ -1,13 +1,15 @@
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 
-public class Reparto {
+public class Reparto implements Serializable, Comparable,Iterable<Reparto> {
     private String nome;
     private String CFcapo;
     ArrayList<String> listaCFimpiegati=new ArrayList<>();
     public Reparto(String n, String cf, ArrayList<String> listaCF)//costruttore con parametri
     {
         this.setNome(n);
-        this.CFcapo=cf;
+        this.setCFcapo(cf);
         listaCFimpiegati.addAll(listaCF);
     }
     public String getCFcapo() {
@@ -25,6 +27,16 @@ public class Reparto {
     @Override
     public String toString()
     {
-        return "REPARTO[NOME:"+getNome()+"\\CAPO:"+getCFcapo()+"]";
+        return "REPARTO\n[NOME:"+getNome()+"\\CAPO:"+getCFcapo()+"]";
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return 0;
+    }
+    ArrayList<Reparto>repartoArrayList=new ArrayList<>();
+    @Override
+    public Iterator<Reparto> iterator() {
+        return repartoArrayList.iterator();
     }
 }

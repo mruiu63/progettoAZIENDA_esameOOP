@@ -1,11 +1,9 @@
 import prog.io.ConsoleOutputManager;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Random;
+import java.io.Serializable;
+import java.util.*;
 
-public class Impiegato implements Comparable<Impiegato>{
+public class Impiegato implements Comparable<Impiegato>, Serializable, Iterable<Impiegato> {
     private String CF="";
     private String nome;
     private String cognome;
@@ -98,14 +96,40 @@ public class Impiegato implements Comparable<Impiegato>{
         calendar.set(year, month, day);
         return calendar.getTime();
     }
+    public void ControlloContratti()
+    {
+        out.println(toString());
+        for(Contratto c:listacontratti)
+        {
+            if(c.eseguiRevisione())
+            {
+                out.println(c.toString()+" e' valido");
+            }
+            else {
+                out.println(c.toString()+" e' scaduto");
+            }
+        }
+    }
     @Override
     public String toString()
     {
-        return "Impiegato[CF="+CF+"\\"+cognome+" "+nome+"\\ruolo:"+ruolo+"]";
+        return "Impiegato\n[CF="+CF+"\\"+cognome+" "+nome+"\\ruolo:"+ruolo+"]";
     }
-
+    @Override
+    public boolean equals(Object o)
+    {
+        if(this ==o) return true;
+        if(o==null||getClass()!=o.getClass()) return false;
+        Impiegato imp=(Impiegato) o;
+        return Objects.equals(CF, imp.CF);
+    }
     @Override
     public int compareTo(Impiegato o) {
         return this.CF.compareTo(o.CF);
+    }
+    ArrayList<Impiegato>impiegatoArrayList=new ArrayList<>();
+    @Override
+    public Iterator<Impiegato> iterator() {
+        return impiegatoArrayList.iterator();
     }
 }

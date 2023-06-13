@@ -1,6 +1,8 @@
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 
-public class Sede {
+public class Sede implements Serializable,Comparable,Iterable<Sede>{
     private String codice;
     private String comune;
     private String CFdirettore;
@@ -32,6 +34,15 @@ public class Sede {
     @Override
     public String toString()
     {
-        return "SEDE[Codice:"+getCodice()+"\\Comune:"+getComune()+"\\Direttore:"+getCFdirettore()+"]";
+        return "SEDE\n[Codice:"+getCodice()+"\\Comune:"+getComune()+"\\Direttore:"+getCFdirettore()+"]";
+    }
+    @Override
+    public int compareTo(Object o) {
+        return 0;
+    }
+    ArrayList<Sede>sedeArrayList=new ArrayList<>();
+    @Override
+    public Iterator<Sede> iterator() {
+        return sedeArrayList.iterator();
     }
 }

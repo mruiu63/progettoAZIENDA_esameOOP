@@ -1,13 +1,96 @@
 import prog.io.ConsoleInputManager;
 import prog.io.ConsoleOutputManager;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Random;
 
 public class Main {
+    static void scriviAziendaSuFile(GestioneAzienda azienda, String nomefile)
+    {
+        try(FileWriter writer=new FileWriter(nomefile))
+        {
+            for(Sede sede: azienda.listasedi)
+            {
+                writer.write("SEDE\n");
+                writer.write("Codice:"+sede.getCodice()+"\\"+
+                        "Comune:"+sede.getComune()+"\\"+
+                        "CFdirettore:"+sede.getCFdirettore()+"\n");
+                for(Impiegato imp:azienda.listaimpiegati)
+                {
+                        if(imp.getCF().equals(sede.getCFdirettore()) && imp.getRuolo().equals("DIR"))
+                        {
+                            writer.write("CONTRATTI Direttore\n");
+                            for(Contratto c: imp.listacontratti)
+                            {
+                                writer.write(c.toString1());
+                            }
+                            break;
+                        }
+                }
+                for(Reparto reparto: sede.listareparti)
+                {
+                    writer.write("REPARTO\n");
+                    writer.write("Nome:"+reparto.getNome()+
+                            "\\CF capo:"+reparto.getCFcapo()+"\n");
+                    for(Impiegato imp:azienda.listaimpiegati)
+                    {
+                        if(imp.getCF().equals(reparto.getCFcapo()) && imp.getRuolo().equals("CRP"))
+                        {
+                            writer.write("CONTRATTI Capo reparto\n");
+                            for(Contratto c: imp.listacontratti)
+                            {
+                                writer.write(c.toString1());
+                            }
+                            break;
+                        }
+                    }
+                    writer.write("CF impiegati reparto:\n");
+                    for(String CF: reparto.listaCFimpiegati)
+                    {
+                        for(Impiegato imp:azienda.listaimpiegati)
+                        {
+                            if(imp.getCF().equals(CF)) {
+                                for(Contratto c: imp.listacontratti) {
+                                    writer.write(CF + "->Contratto:"+c.toString1());
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if(!azienda.listaCFimpFree.isEmpty())
+            {
+                writer.write("IMPIEGATI vecchi o senza assegnazione di sede/reparto\n");
+                for(Impiegato imp: azienda.listaimpiegati)
+                {
+                    for(String CF: azienda.listaCFimpFree) {
+                        if (imp.getCF().equals(CF)) {
+                            writer.write("Nome:" + imp.getNome() + "\\Cognome:" + imp.getCognome() + "\\CF:" + imp.getCF() + "\\Ruolo:" + imp.getRuolo() + "\n");
+                            writer.write("CONTRATTI\n");
+                            for (Contratto c : imp.listacontratti) {
+                                writer.write(c.toString1());
+                            }
+                        }
+                    }
+                }
+            }
+            writer.write("\n");
+            writer.flush();
+            writer.close();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
     public static void main(String[] args) {
         ConsoleOutputManager out=new ConsoleOutputManager();
         ConsoleInputManager in=new ConsoleInputManager();
         GestioneAzienda azienda= new GestioneAzienda();
+        String filename="C:\\Users\\robin\\IdeaProjects\\progettoAZIENDA_esameOOP\\src\\DatiAzienda.txt";
         int s;
         do {
             out.println("1)Apri nuova sede");
@@ -20,6 +103,7 @@ public class Main {
             out.println("8)Chiudi un reparto");
             out.println("9)Chiudi una sede");
             out.println("10)Revisione contratti");
+            out.println("11)Esporta dati su file.txt");
             out.println("0)Ferma esecuzione");
             s = in.readInt();
             switch (s) {
@@ -62,6 +146,10 @@ public class Main {
                     else {
                         for (Impiegato imp : azienda.listaimpiegati) {
                             out.println(imp.toString());
+                            for(Contratto c: imp.listacontratti)
+                            {
+                                out.println(c.toString());
+                            }
                         }
                     }
                 }break;
@@ -99,13 +187,14 @@ public class Main {
                         }
                     }while(repvecchio);
                     azienda.spostamentoRepImp(CFimpiegato,nomerep);
-                }
+                }break;
                 case 7:
                 {
                     boolean sedeesistente=false;
                     Sede sede=null;
+                    String codsede;
                     do {
-                        String codsede = in.readLine("Inserisci codice sede");
+                        codsede = in.readLine("Inserisci codice sede");
                         for(Sede sed:azienda.listasedi)
                         {
                             if(codsede.equals(sed.getCodice()))
@@ -114,9 +203,9 @@ public class Main {
                                 sede=sed;
                             }
                         }
-                    }while(sedeesistente);
+                    }while(!sedeesistente);
                     azienda.ApriNuoviRep(sede);
-                }
+                }break;
                 case 8:
                 {
                     boolean continua=false;
@@ -130,7 +219,7 @@ public class Main {
                         {
                             continua=in.readSiNo("Vuoi riprovare?");
                         }
-                    }while(continua);
+                    }while(!continua);
                 }break;
                 case 9:
                 {
@@ -140,13 +229,31 @@ public class Main {
                     }
                     else
                     {
-                        String cod=in.readLine("Inserisci codice sede che vuoi chiudere");
-                        azienda.chiudiSede(cod);
+                        boolean sedeesistente=false;
+                        String codsede;
+                        do {
+                            codsede = in.readLine("Inserisci codice sede");
+                            for(Sede sed:azienda.listasedi)
+                            {
+                                if(codsede.equals(sed.getCodice()))
+                                {
+                                    sedeesistente=true;
+                                }
+                            }
+                        }while(!sedeesistente);
+                        azienda.chiudiSede(codsede);
                     }
                 }break;
                 case 10:
                 {
-                    //revisione contratti
+                    for(Impiegato imp: azienda.listaimpiegati)
+                    {
+                        imp.ControlloContratti();
+                    }
+                }break;
+                case 11:
+                {
+                    scriviAziendaSuFile(azienda,filename);
                 }break;
             }
         }while(s!=0);

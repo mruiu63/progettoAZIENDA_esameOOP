@@ -2,10 +2,10 @@ import java.io.*;
 import prog.io.ConsoleInputManager;
 import prog.io.ConsoleOutputManager;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Collections;
 import java.util.*;
 
-public class GestioneAzienda{
+public class GestioneAzienda implements Serializable{
     ArrayList<Impiegato> listaimpiegati=new ArrayList<>();
     ArrayList<String> listaCFimpFree=new ArrayList<>();
     ArrayList<Sede> listasedi=new ArrayList<>();
@@ -219,6 +219,12 @@ public class GestioneAzienda{
         else
         {
             out.println("L'azienda non ha sedi aperte");
+            if(!listaCFimpFree.isEmpty()) {
+                out.println("Impiegati presenti ma senza assegnazione a sede/reparto");
+                for (String CF : listaCFimpFree) {
+                    out.println(CF);
+                }
+            }
         }
     }
     public Reparto RicercaRep(String nomerep)
@@ -300,6 +306,7 @@ public class GestioneAzienda{
                     repesistente=true;
                     listaCFimpFree.add(rep.getCFcapo());
                     listaCFimpFree.addAll(rep.listaCFimpiegati);
+                    sede.listareparti.remove(rep);
                 }
             }
         }
