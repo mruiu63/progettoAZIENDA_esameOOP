@@ -1,8 +1,6 @@
 import prog.io.ConsoleOutputManager;
-
 import java.io.Serializable;
 import java.util.*;
-
 public class Impiegato implements Comparable<Impiegato>, Serializable, Iterable<Impiegato> {
     private String CF="";
     private String nome;
@@ -95,20 +93,6 @@ public class Impiegato implements Comparable<Impiegato>, Serializable, Iterable<
         int day = startDay + random.nextInt(calendar.getActualMaximum(Calendar.DAY_OF_MONTH) - startDay + 1);
         calendar.set(year, month, day);
         return calendar.getTime();
-    }
-    public void ControlloContratti()
-    {
-        out.println(toString());
-        for(Contratto c:listacontratti)
-        {
-            if(c.eseguiRevisione())
-            {
-                out.println(c.toString()+" e' valido");
-            }
-            else {
-                out.println(c.toString()+" e' scaduto");
-            }
-        }
     }
     @Override
     public String toString()

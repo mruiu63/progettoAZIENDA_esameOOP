@@ -2,7 +2,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
-
 public class Contratto implements Serializable,Comparable,Iterable<Contratto> {
     private String CFimpiegato;
     private Date datainizio;
@@ -67,7 +66,6 @@ public class Contratto implements Serializable,Comparable,Iterable<Contratto> {
         }
         else return "Contratto\n[CF:"+CFimpiegato+"\\Tipo:"+tipocont+"\\Inizio:"+datainizio+"\\Fine:"+datafine+"\\Stipendio:"+stipendio+"]";
     }
-
     @Override
     public int compareTo(Object o) {
         return 0;

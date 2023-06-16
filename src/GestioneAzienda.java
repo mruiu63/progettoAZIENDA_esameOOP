@@ -4,7 +4,6 @@ import prog.io.ConsoleOutputManager;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.*;
-
 public class GestioneAzienda implements Serializable{
     ArrayList<Impiegato> listaimpiegati=new ArrayList<>();
     ArrayList<String> listaCFimpFree=new ArrayList<>();
@@ -200,20 +199,22 @@ public class GestioneAzienda implements Serializable{
         {
             for(Sede sede: listasedi)
             {
-                out.println(sede);
+                out.println(sede.toString());
                 for(Reparto reparto:sede.listareparti)
                 {
-                    out.println(reparto);
+                    out.println(reparto.toString());
                     for(String CF: reparto.listaCFimpiegati)
                     {
-                        out.println(CF);
+                        out.print(CF+"\t");
                     }
+                    out.println();
                 }
             }
-            out.println("Impiegati presenti ma senza assegnazione a sede/reparto");
-            for(String CF:listaCFimpFree)
-            {
-                out.println(CF);
+            if(!listaCFimpFree.isEmpty()) {
+                out.println("Impiegati presenti ma senza assegnazione a sede/reparto");
+                for (String CF : listaCFimpFree) {
+                    out.println(CF);
+                }
             }
         }
         else
@@ -229,14 +230,15 @@ public class GestioneAzienda implements Serializable{
     }
     public Reparto RicercaRep(String nomerep)
     {
-        Reparto r = null;
+        Reparto r=null;
         for(Sede s: listasedi)
         {
             for(Reparto rep: s.listareparti)
             {
-                if(nomerep.equals(rep.getNome()))
+                if(rep.getNome().equals(nomerep))
                 {
                     r=rep;
+                    break;
                 }
             }
         }
@@ -288,9 +290,8 @@ public class GestioneAzienda implements Serializable{
                     listaCFimpFree.addAll(rep.listaCFimpiegati);
                 }
                 listasedi.remove(sede);
-            }
-            if(listasedi.size()==0)
                 break;
+            }
         }
     }
     public boolean chiudiReparto(String repToCanc)
@@ -299,14 +300,15 @@ public class GestioneAzienda implements Serializable{
         //scansione sedi per trovare rep
         for(Sede sede: listasedi)
         {
-            for(Reparto rep: sede.listareparti)
-            {
-                if(rep.getNome().equals(repToCanc))
-                {
-                    repesistente=true;
-                    listaCFimpFree.add(rep.getCFcapo());
-                    listaCFimpFree.addAll(rep.listaCFimpiegati);
-                    sede.listareparti.remove(rep);
+            if(!sede.listareparti.isEmpty()) {
+                for (Reparto rep : sede.listareparti) {
+                    if (rep.getNome().equals(repToCanc)) {
+                        repesistente = true;
+                        listaCFimpFree.add(rep.getCFcapo());
+                        listaCFimpFree.addAll(rep.listaCFimpiegati);
+                        sede.listareparti.remove(rep);
+                        break;
+                    }
                 }
             }
         }

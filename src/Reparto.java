@@ -1,7 +1,6 @@
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
-
 public class Reparto implements Serializable, Comparable,Iterable<Reparto> {
     private String nome;
     private String CFcapo;
@@ -29,7 +28,6 @@ public class Reparto implements Serializable, Comparable,Iterable<Reparto> {
     {
         return "REPARTO\n[NOME:"+getNome()+"\\CAPO:"+getCFcapo()+"]";
     }
-
     @Override
     public int compareTo(Object o) {
         return 0;

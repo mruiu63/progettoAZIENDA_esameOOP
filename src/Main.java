@@ -1,12 +1,7 @@
 import prog.io.ConsoleInputManager;
 import prog.io.ConsoleOutputManager;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Random;
-
 public class Main {
     static void scriviAziendaSuFile(GestioneAzienda azienda, String nomefile)
     {
@@ -69,9 +64,8 @@ public class Main {
                     for(String CF: azienda.listaCFimpFree) {
                         if (imp.getCF().equals(CF)) {
                             writer.write("Nome:" + imp.getNome() + "\\Cognome:" + imp.getCognome() + "\\CF:" + imp.getCF() + "\\Ruolo:" + imp.getRuolo() + "\n");
-                            writer.write("CONTRATTI\n");
                             for (Contratto c : imp.listacontratti) {
-                                writer.write(c.toString1());
+                                writer.write(CF+"->Contratto:"+c.toString1());
                             }
                         }
                     }
@@ -96,7 +90,7 @@ public class Main {
             out.println("1)Apri nuova sede");
             out.println("2)Assumi nuovi impiegati");
             out.println("3)Visualizza impiegati");
-            out.println("4)Visualizza sedi");
+            out.println("4)Visualizza sedi(Codice identificativo)");
             out.println("5)Visualizza tutti i dati dell'azienda");
             out.println("6)Assegna impiegato ad un altro reparto");
             out.println("7)Apri nuovo reparto");
@@ -109,7 +103,6 @@ public class Main {
             switch (s) {
                 case 1:
                 {
-                    out.println("APERTURA NUOVA SEDE");
                     String com=in.readLine("In quale comune vuoi aprire la sede?");//inserimento comune dove aprire la sede
                     String cod=in.readLine("Assegna un codice identificativo alla sede");//inserimento codice della sede
                     azienda.add_sede(cod,com);//richiamo metodo per aggiungere la sede
@@ -171,55 +164,70 @@ public class Main {
                 }break;
                 case 6:
                 {
-                    String CFimpiegato=in.readLine("Inserire codice fiscale del dipendente che si vuole spostare di reparto");
-                    boolean repvecchio;
-                    String nomerep;
-                    do {
-                        repvecchio=false;
-                        nomerep=in.readLine("Inserire nome del nuovo reparto");
-                        Reparto r=azienda.RicercaRep(nomerep);
-                        for(String CF: r.listaCFimpiegati)
-                        {
-                            if(CF.equals(CFimpiegato));
-                            {
-                                repvecchio=true;
+                    Reparto r=null;
+                    if(azienda.listasedi.isEmpty())
+                    {
+                        out.println("L'azienda non ha reparti aperto, per fare questa operazione prima APRI SEDE!!");
+                    }
+                    else {
+                        String CFimpiegato = in.readLine("Inserire codice fiscale del dipendente che si vuole spostare di reparto");
+                        boolean repvecchio;
+
+                        String nomerep;
+                        do {
+                            repvecchio = false;
+                            nomerep = in.readLine("Inserire nome del nuovo reparto");
+                            r = azienda.RicercaRep(nomerep);
+                            for (String CF : r.listaCFimpiegati) {
+                                if (CF.equals(CFimpiegato)) ;
+                                {
+                                    repvecchio = true;
+                                }
                             }
-                        }
-                    }while(repvecchio);
-                    azienda.spostamentoRepImp(CFimpiegato,nomerep);
+                        } while (repvecchio);
+                        azienda.spostamentoRepImp(CFimpiegato, nomerep);
+                    }
                 }break;
                 case 7:
                 {
-                    boolean sedeesistente=false;
-                    Sede sede=null;
-                    String codsede;
-                    do {
-                        codsede = in.readLine("Inserisci codice sede");
-                        for(Sede sed:azienda.listasedi)
-                        {
-                            if(codsede.equals(sed.getCodice()))
-                            {
-                                sedeesistente=true;
-                                sede=sed;
+                    if(azienda.listasedi.isEmpty())
+                    {
+                        out.println("L'azienda non ha reparti aperto, per fare questa operazione prima APRI SEDE!!");
+                    }
+                    else {
+                        boolean sedeesistente = false;
+                        Sede sede = null;
+                        String codsede;
+                        do {
+                            codsede = in.readLine("Inserisci codice sede");
+                            for (Sede sed : azienda.listasedi) {
+                                if (codsede.equals(sed.getCodice())) {
+                                    sedeesistente = true;
+                                    sede = sed;
+                                }
                             }
-                        }
-                    }while(!sedeesistente);
-                    azienda.ApriNuoviRep(sede);
+                        } while (!sedeesistente);
+                        azienda.ApriNuoviRep(sede);
+                    }
                 }break;
                 case 8:
                 {
-                    boolean continua=false;
-                    do {
-                        String repToCanc = in.readLine("Inserisci nome del reparto che vuoi chiudere");
-                        if (azienda.chiudiReparto(repToCanc)) {
-                            out.println("Reparto chiuso");
-                            continua=true;
-                        }
-                        else
-                        {
-                            continua=in.readSiNo("Vuoi riprovare?");
-                        }
-                    }while(!continua);
+                    if(azienda.listasedi.isEmpty())
+                    {
+                        out.println("L'azienda non ha reparti aperto, per fare questa operazione prima APRI SEDE!!");
+                    }
+                    else {
+                        boolean continua = false;
+                        do {
+                            String repToCanc = in.readLine("Inserisci nome del reparto che vuoi chiudere");
+                            if (azienda.chiudiReparto(repToCanc)) {
+                                out.println("REPARTO CHIUSO");
+                                continua = true;
+                            } else {
+                                continua = !in.readSiNo("Vuoi riprovare?");
+                            }
+                        } while (!continua);
+                    }
                 }break;
                 case 9:
                 {
@@ -238,6 +246,7 @@ public class Main {
                                 if(codsede.equals(sed.getCodice()))
                                 {
                                     sedeesistente=true;
+                                    out.println("SEDE CHIUSA");
                                 }
                             }
                         }while(!sedeesistente);
@@ -248,7 +257,16 @@ public class Main {
                 {
                     for(Impiegato imp: azienda.listaimpiegati)
                     {
-                        imp.ControlloContratti();
+                        out.println(imp.toString());
+                        out.println("Contratti:");
+                        for(Contratto c:imp.listacontratti)
+                        {
+                            if(c.eseguiRevisione())
+                            {
+                                out.println(c.toString1()+"VALIDO");
+                            }
+                            else out.println(c.toString1()+"SCADUTO");
+                        }
                     }
                 }break;
                 case 11:

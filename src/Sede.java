@@ -1,7 +1,6 @@
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
-
 public class Sede implements Serializable,Comparable,Iterable<Sede>{
     private String codice;
     private String comune;

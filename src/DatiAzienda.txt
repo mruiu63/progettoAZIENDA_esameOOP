@@ -1,0 +1,40 @@
+SEDE
+Codice:SS1\Comune:Sassari\CFdirettore:RIOMATSJH
+CONTRATTI Direttore
+Tipo:tempo indeterminato\Inizio:Sun Jun 04 10:04:45 CEST 2023\Stipendio:12314.0]
+REPARTO
+Nome:Reti\CF capo:LAGANDFUR
+CONTRATTI Capo reparto
+Tipo:tempo indeterminato\Inizio:Sun Sep 10 10:04:45 CEST 2023\Stipendio:12301.0]
+CF impiegati reparto:
+SANGIACIH->Contratto:Tipo:tempo determinato\Inizio:Wed Jul 19 10:04:45 CEST 2023\Fine:Tue Aug 01 10:04:45 CEST 2028\Stipendio:234.0]
+ROSMARGVH->Contratto:Tipo:tempo determinato\Inizio:Mon Sep 04 10:04:45 CEST 2023\Fine:Wed Mar 24 10:04:45 CET 2027\Stipendio:1234.0]
+REPARTO
+Nome:Progettazione\CF capo:SIMSIMJHJ
+CONTRATTI Capo reparto
+Tipo:tempo indeterminato\Inizio:Sun Oct 22 10:04:45 CEST 2023\Stipendio:12345.0]
+CF impiegati reparto:
+VERLUISPR->Contratto:Tipo:tempo determinato\Inizio:Tue Jul 18 10:04:45 CEST 2023\Fine:Mon Oct 21 10:04:45 CEST 2024\Stipendio:1234.0]
+REPARTO
+Nome:Macchine\CF capo:WELWILMTK
+CONTRATTI Capo reparto
+Tipo:tempo indeterminato\Inizio:Sun Oct 01 10:04:45 CEST 2023\Stipendio:12345.0]
+CF impiegati reparto:
+SAMSEMPWA->Contratto:Tipo:tempo determinato\Inizio:Thu Apr 27 10:04:45 CEST 2023\Fine:Mon Apr 10 10:04:45 CEST 2028\Stipendio:1234.0]
+REPARTO
+Nome:Sistemi\CF capo:QEMQIMDSR
+CONTRATTI Capo reparto
+Tipo:tempo indeterminato\Inizio:Fri Oct 13 10:04:45 CEST 2023\Stipendio:12345.0]
+CF impiegati reparto:
+PUMPIMUHN->Contratto:Tipo:tempo determinato\Inizio:Fri Sep 29 10:04:45 CEST 2023\Fine:Mon Dec 21 10:04:45 CET 2026\Stipendio:1234.0]
+SEDE
+Codice:PT1\Comune:Porto Torres\CFdirettore:DOVDAVGIU
+CONTRATTI Direttore
+Tipo:tempo indeterminato\Inizio:Fri Oct 06 10:04:45 CEST 2023\Stipendio:12345.0]
+REPARTO
+Nome:Marketing\CF capo:ZAMZIMUJH
+CONTRATTI Capo reparto
+Tipo:tempo indeterminato\Inizio:Fri Feb 17 10:04:45 CET 2023\Stipendio:12345.0]
+CF impiegati reparto:
+TOMTIMSKG->Contratto:Tipo:tempo indeterminato\Inizio:Thu Jun 08 10:04:45 CEST 2023\Stipendio:12341.0]
+
